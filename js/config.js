@@ -1,7 +1,7 @@
 // Konfigurasi API
 const CONFIG = {
     // Ganti dengan URL Vercel kamu setelah deploy
-    API_BASE_URL: window.location.origin + '/api',
+    API_BASE_URL: 'https://kyze-ai-studio.vercel.app/api',
     
     // Konfigurasi AI (sama dengan di backend)
     AI_PROVIDER: 'gemini', // 'openai', 'gemini', 'claude', atau 'mock'
