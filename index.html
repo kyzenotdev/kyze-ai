@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KyzeAI - AI Assistant Modern</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">KyzeAI</span>
+                <span class="logo-badge">beta</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#features" class="nav-link">Fitur</a>
+                <a href="#pricing" class="nav-link">Harga</a>
+                <a href="#about" class="nav-link">Tentang</a>
+                <button class="btn btn-outline login-btn" onclick="showLoginModal()">Login</button>
+                <button class="btn btn-primary register-btn" onclick="showRegisterModal()">Daftar</button>
+                <button class="btn btn-outline logout-btn" style="display: none;" onclick="auth.logout()">Logout</button>
+                <div class="user-menu" style="display: none;">
+                    <span class="username"></span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">KyzeAI</span>
+                    <br>Asisten AI Modern untuk Semua Kebutuhan
+                </h1>
+                <p class="hero-subtitle">
+                    Dapatkan jawaban instan, bantuan menulis, coding, analisis data, dan masih banyak lagi dengan KyzeAI. 
+                    Dikembangkan oleh kyze official untuk pengalaman AI terbaik.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-large" onclick="showRegisterModal()">
+                        Mulai Gratis
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="showLoginModal()">
+                        Login
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">100K+</span>
+                        <span class="stat-label">Pengguna Aktif</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1M+</span>
+                        <span class="stat-label">Chat Terkirim</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="chat-preview">
+                    <div class="chat-message ai">
+                        <div class="message-content">
+                            Halo! Ada yang bisa saya bantu hari ini?
+                        </div>
+                    </div>
+                    <div class="chat-message user">
+                        <div class="message-content">
+                            Tolong buatkan saya puisi tentang coding
+                        </div>
+                    </div>
+                    <div class="chat-message ai">
+                        <div class="message-content">
+                            Tentu! Berikut puisi untukmu...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Fitur <span class="gradient-text">Unggulan</span></h2>
+            <p class="section-subtitle">Nikmati berbagai fitur canggih yang akan memudahkan pekerjaanmu</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Cerdas</h3>
+                    <p>Menggunakan teknologi AI terkini yang mampu memahami konteks dan memberikan jawaban akurat</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Expert Coding</h3>
+                    <p>Bantuan coding untuk berbagai bahasa pemrograman dengan penjelasan detail</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3>Upload Gambar</h3>
+                    <p>Upload gambar dan biarkan AI menganalisis atau mengekstrak teks darinya</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>Unlimited Premium</h3>
+                    <p>Nikmati akses tanpa batas dengan paket premium, termasuk upload gambar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Pilih <span class="gradient-text">Paketmu</span></h2>
+            <p class="section-subtitle">Dapatkan pengalaman terbaik dengan pilihan paket yang sesuai</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Gratis</h3>
+                        <div class="price">
+                            <span class="amount">Rp 0</span>
+                            <span class="period">/selamanya</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 20 chat per hari</li>
+                            <li><i class="fas fa-check"></i> Akses AI dasar</li>
+                            <li><i class="fas fa-times"></i> Upload gambar</li>
+                            <li><i class="fas fa-times"></i> Prioritas response</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-outline btn-block" onclick="showRegisterModal()">Mulai Gratis</button>
+                </div>
+                
+                <div class="pricing-card premium">
+                    <div class="premium-badge">POPULER</div>
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="price">
+                            <span class="amount">Rp 50K</span>
+                            <span class="period">/bulan</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Unlimited chat</li>
+                            <li><i class="fas fa-check"></i> Akses AI premium</li>
+                            <li><i class="fas fa-check"></i> Upload gambar unlimited</li>
+                            <li><i class="fas fa-check"></i> Prioritas response</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="showRegisterModal()">Pilih Premium</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login ke KyzeAI</h2>
+                <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginUsername">Username atau Email</label>
+                    <input type="text" id="loginUsername" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+                <div id="loginError" class="alert alert-error" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div class="modal-footer">
+                Belum punya akun? <a href="#" onclick="switchModal('register')">Daftar sekarang</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Daftar Akun Baru</h2>
+                <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            </div>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" class="form-control" required minlength="3">
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" class="form-control" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="regConfirmPassword">Konfirmasi Password</label>
+                    <input type="password" id="regConfirmPassword" class="form-control" required>
+                </div>
+                <div id="registerError" class="alert alert-error" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary btn-block">Daftar</button>
+            </form>
+            <div class="modal-footer">
+                Sudah punya akun? <a href="#" onclick="switchModal('login')">Login disini</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>KyzeAI</h3>
+                    <p>Asisten AI modern untuk semua kebutuhan Anda. Dikembangkan oleh kyze official.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="#features">Fitur</a></li>
+                        <li><a href="#pricing">Harga</a></li>
+                        <li><a href="#about">Tentang</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Ikuti Kami</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 KyzeAI. All rights reserved. Developed by kyze official</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        // Modal functions
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function showRegisterModal() {
+            document.getElementById('registerModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function switchModal(type) {
+            closeModal('loginModal');
+            closeModal('registerModal');
+            if (type === 'login') {
+                showLoginModal();
+            } else {
+                showRegisterModal();
+            }
+        }
+
+        // Handle login
+        async function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            
+            errorDiv.style.display = 'none';
+            
+            const result = await auth.login(username, password);
+            if (!result.success) {
+                errorDiv.textContent = result.error;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        // Handle register
+        async function handleRegister(event) {
+            event.preventDefault();
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const errorDiv = document.getElementById('registerError');
+            
+            errorDiv.style.display = 'none';
+            
+            if (password !== confirmPassword) {
+                errorDiv.textContent = 'Password tidak cocok';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            const result = await auth.register(username, email, password);
+            if (!result.success) {
+                errorDiv.textContent = result.error;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
