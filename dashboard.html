@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KyzeAI - Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Admin Dashboard Specific Styles */
+        .admin-page {
+            display: flex;
+            min-height: 100vh;
+            background: var(--light);
+        }
+
+        /* Admin Sidebar */
+        .admin-sidebar {
+            width: 280px;
+            background: var(--dark);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--dark-light);
+        }
+
+        .sidebar-header h2 {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+
+        .admin-nav {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            margin: 4px 10px;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--gray-light);
+        }
+
+        .nav-item:hover {
+            background: var(--dark-light);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .nav-item i {
+            width: 20px;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--dark-light);
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .admin-details {
+            flex: 1;
+        }
+
+        .admin-name {
+            font-weight: 600;
+            color: white;
+        }
+
+        .admin-role {
+            font-size: 0.8rem;
+            color: var(--gray-light);
+        }
+
+        /* Main Content */
+        .admin-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 30px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .page-title p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .date-display {
+            background: var(--gray-light);
+            padding: 8px 16px;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+
+        .table-header .btn {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px 25px;
+            background: var(--gray-light);
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--gray-light);
+            color: var(--dark);
+        }
+
+        tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        /* Badges */
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge.admin {
+            background: var(--primary);
+            color: white;
+        }
+
+        .badge.premium {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge.free {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .badge.expired {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .action-btn.edit {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .action-btn.premium {
+            background: var(--success);
+            color: white;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        /* Modal */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            overflow: auto;
+        }
+
+        .admin-modal-content {
+            background: white;
+            margin: 50px auto;
+            max-width: 500px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .admin-modal-header {
+            padding: 20px 25px;
+            background: var(--gradient);
+            color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .admin-modal-body {
+            padding: 25px;
+        }
+
+        .admin-modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-light);
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: var(--gradient);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+                z-index: 99;
+            }
+
+            .admin-sidebar.active {
+                transform: translateX(0);
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-page">
+        <!-- Admin Sidebar -->
+        <div class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <h2>KyzeAI</h2>
+                <p>Admin Panel</p>
+            </div>
+
+            <div class="admin-nav">
+                <div class="nav-item active" onclick="switchTab('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </div>
+                <div class="nav-item" onclick="switchTab('users')">
+                    <i class="fas fa-users"></i>
+                    Manajemen Users
+                </div>
+                <div class="nav-item" onclick="switchTab('premium')">
+                    <i class="fas fa-crown"></i>
+                    Premium Settings
+                </div>
+                <div class="nav-item" onclick="switchTab('logs')">
+                    <i class="fas fa-history"></i>
+                    Activity Logs
+                </div>
+                <div class="nav-item" onclick="switchTab('settings')">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <div class="admin-avatar" id="adminAvatar">K</div>
+                    <div class="admin-details">
+                        <div class="admin-name" id="adminName">Loading...</div>
+                        <div class="admin-role">Administrator</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline" style="width: 100%;" onclick="auth.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            <div class="top-bar">
+                <div class="page-title">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageDescription">Selamat datang di panel admin KyzeAI</p>
+                </div>
+                <div class="date-display" id="currentDate"></div>
+            </div>
+
+            <!-- Dashboard Tab -->
+            <div id="dashboardTab" class="tab-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value" id="totalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="stat-value" id="premiumUsers">0</div>
+                        <div class="stat-label">Premium Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="stat-value" id="totalChats">0</div>
+                        <div class="stat-label">Total Chats</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="stat-value" id="totalImages">0</div>
+                        <div class="stat-label">Images Uploaded</div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Users Terbaru</h3>
+                        <button class="btn btn-primary" onclick="switchTab('users')">
+                            Lihat Semua
+                        </button>
+                    </div>
+                    <table id="recentUsersTable">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Premium</th>
+                                <th>Chat Hari Ini</th>
+                                <th>Join Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentUsersBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center;">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="usersTab" class="tab-content" style="display: none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Manajemen Users</h3>
+                        <div>
+                            <input type="text" placeholder="Cari user..." class="form-control" style="width: 250px; display: inline-block; margin-right: 10px;" id="searchUser">
+                            <button class="btn btn-primary" onclick="loadUsers()">
+                                <i class="fas fa-search"></i>
+                                Cari
+                            </button>
+                        </div>
+                    </div>
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Premium</th>
+                                <th>Expires</th>
+                                <th>Chat Count</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersBody">
+                            <tr>
+                                <td colspan="8" style="text-align: center;">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Premium Settings Tab -->
+            <div id="premiumTab" class="tab-content" style="display: none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Atur Premium User</h3>
+                    </div>
+                    <div style="padding: 25px;">
+                        <form id="premiumForm" onsubmit="setPremium(event)">
+                            <div class="form-group">
+                                <label>Pilih User</label>
+                                <select id="premiumUser" class="form-control" required>
+                                    <option value="">-- Pilih User --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Durasi Premium</label>
+                                <select id="premiumDuration" class="form-control" required>
+                                    <option value="30">30 Hari</option>
+                                    <option value="60">60 Hari</option>
+                                    <option value="90">90 Hari</option>
+                                    <option value="365">1 Tahun</option>
+                                    <option value="9999">Permanent</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="unlimitedChat" checked>
+                                    Unlimited Chat
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="unlimitedImage" checked>
+                                    Unlimited Image Upload
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Aktifkan Premium</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logs Tab -->
+            <div id="logsTab" class="tab-content" style="display: none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Activity Logs</h3>
+                    </div>
+                    <table id="logsTable">
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>User</th>
+                                <th>Aksi</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logsBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center;">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settingsTab" class="tab-content" style="display: none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Pengaturan Sistem</h3>
+                    </div>
+                    <div style="padding: 25px;">
+                        <form id="settingsForm" onsubmit="saveSettings(event)">
+                            <div class="form-group">
+                                <label>Daily Chat Limit (Free User)</label>
+                                <input type="number" id="chatLimit" class="form-control" value="20" min="1" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label>Max Image Size (MB)</label>
+                                <input type="number" id="maxImageSize" class="form-control" value="5" min="1" max="50">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="allowRegistration" checked>
+                                    Izinkan Registrasi User Baru
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="maintenanceMode">
+                                    Maintenance Mode
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Simpan Pengaturan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="admin-modal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>Edit User</h3>
+            </div>
+            <div class="admin-modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="editUserId">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="editUsername" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="editEmail" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select id="editRole" class="form-control">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Premium Status</label>
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <label>
+                                <input type="checkbox" id="editPremium">
+                                Aktifkan Premium
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="premiumExpiryGroup">
+                        <label>Expiry Date</label>
+                        <input type="date" id="editExpiry" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('editUserModal')">Batal</button>
+                <button class="btn btn-primary" onclick="saveUserEdit()">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>
