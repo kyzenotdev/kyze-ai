@@ -2,15 +2,18 @@ const { findUserByUsername, findUserByEmail, addUser } = require('../lib/db');
 const { generateToken } = require('../lib/jwt');
 
 module.exports = async (req, res) => {
+    // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+    // Handle OPTIONS request
     if (req.method === 'OPTIONS') {
         res.status(200).end();
         return;
     }
 
+    // Only allow POST
     if (req.method !== 'POST') {
         res.status(405).json({ error: 'Method not allowed' });
         return;
@@ -19,31 +22,58 @@ module.exports = async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
+        // Validasi input
         if (!username || !email || !password) {
             res.status(400).json({ error: 'Username, email, dan password wajib diisi!' });
             return;
         }
 
+        if (username.length < 3) {
+            res.status(400).json({ error: 'Username minimal 3 karakter!' });
+            return;
+        }
+
+        if (password.length < 6) {
+            res.status(400).json({ error: 'Password minimal 6 karakter!' });
+            return;
+        }
+
+        // Validasi email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            res.status(400).json({ error: 'Format email tidak valid!' });
+            return;
+        }
+
+        // Cek username sudah terdaftar (TANPA await)
         const existingUser = findUserByUsername(username);
         if (existingUser) {
             res.status(400).json({ error: 'Username sudah digunakan!' });
             return;
         }
 
+        // Cek email sudah terdaftar (TANPA await)
         const existingEmail = findUserByEmail(email);
         if (existingEmail) {
             res.status(400).json({ error: 'Email sudah terdaftar!' });
             return;
         }
 
-        const newUser = addUser({ username, email, password });
+        // Buat user baru (TANPA await)
+        const newUser = addUser({
+            username,
+            email,
+            password
+        });
 
+        // Generate token
         const token = generateToken({
             id: newUser.id,
             username: newUser.username,
             role: newUser.role
         });
 
+        // Hapus password dari response
         const { password: _, ...userWithoutPassword } = newUser;
 
         res.status(201).json({
