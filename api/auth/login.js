@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
             return;
         }
 
-        // Cari user berdasarkan username atau email
+        // Cari user berdasarkan username atau email (TANPA await)
         let user = findUserByUsername(username);
         if (!user) {
             user = findUserByEmail(username);
