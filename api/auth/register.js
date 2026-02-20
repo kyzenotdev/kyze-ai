@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // Handle preflight OPTIONS request
+    // Handle OPTIONS request
     if (req.method === 'OPTIONS') {
         res.status(200).end();
         return;
@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
             return;
         }
 
-        // Validasi email sederhana
+        // Validasi email (yang bener)
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             res.status(400).json({ error: 'Format email tidak valid!' });
@@ -63,10 +63,10 @@ module.exports = async (req, res) => {
         const newUser = addUser({
             username,
             email,
-            password // Dalam production, hash password
+            password
         });
 
-        // Generate JWT token
+        // Generate token (pake object yang bener)
         const token = generateToken({
             id: newUser.id,
             username: newUser.username,
